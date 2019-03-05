@@ -312,7 +312,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/03/05/data/" class="post-title-link" itemprop="url">未命名</a>
+                <a href="/2019/03/05/data/" class="post-title-link" itemprop="url">数据迁移策略</a>
               
             
           </h1>
@@ -337,7 +337,7 @@
                 
               
 
-              <time title="创建时间：2019-03-05 15:40:00 / 修改时间：15:43:02" itemprop="dateCreated datePublished" datetime="2019-03-05T15:40:00+08:00">2019-03-05</time>
+              <time title="创建时间：2019-03-05 15:40:00 / 修改时间：16:00:48" itemprop="dateCreated datePublished" datetime="2019-03-05T15:40:00+08:00">2019-03-05</time>
             
 
             
@@ -378,8 +378,7 @@
       
         
           
-            <p>##数据迁移策略</p>
-<ul>
+            <h2 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h2><ul>
 <li>在某一个时刻将生产库做一个<code>全库备份</code>，并记录下要分表的<code>id最大值及时间</code>，然后使用备份库进行数据迁移</li>
 <li>在发版时停服，根据id大于上一次记录的<code>最大值和更新时间</code>做新增数据和更新数据的迁移</li>
 <li>迁移方法（此方法不适用于阿里云）<blockquote>
@@ -422,9 +421,7 @@
 <p><code>select * from t_order where (user_id % 10) = 8
 into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带有计算的，从1000w数据库导出100w，50s左右</p>
 </blockquote>
-<ul>
-<li>示例：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 以用户id后一位进行分表</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t_order <span class="keyword">where</span> (user_id % <span class="number">10</span>) = <span class="number">8</span></span><br><span class="line"><span class="keyword">into</span> <span class="keyword">outfile</span> <span class="string">'d:/data/t_order_0.txt'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">infile</span> <span class="string">'d:/data/t_order_1.txt'</span> </span><br><span class="line"><span class="keyword">into</span> <span class="keyword">table</span> t_order(@dummy,user_id,order_no,amount,site_code,<span class="string">`status`</span>,order_time,</span><br><span class="line">created_time,updated_time,created_user_id,updated_user_id,<span class="string">`enable`</span>,site_name,</span><br><span class="line">province_area_code,city_area_code,district_area_code,device_id,model_type,gross_amount,</span><br><span class="line">service_fee,data_source,order_type,order_status);</span><br></pre></td></tr></table></figure></li>
-</ul>
+<p><strong> 示例：</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 以用户id后一位进行分表</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t_order <span class="keyword">where</span> (user_id % <span class="number">10</span>) = <span class="number">8</span></span><br><span class="line"><span class="keyword">into</span> <span class="keyword">outfile</span> <span class="string">'d:/data/t_order_0.txt'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">infile</span> <span class="string">'d:/data/t_order_1.txt'</span> </span><br><span class="line"><span class="keyword">into</span> <span class="keyword">table</span> t_order(@dummy,user_id,order_no,amount,site_code,<span class="string">`status`</span>,order_time,</span><br><span class="line">created_time,updated_time,created_user_id,updated_user_id,<span class="string">`enable`</span>,site_name,</span><br><span class="line">province_area_code,city_area_code,district_area_code,device_id,model_type,gross_amount,</span><br><span class="line">service_fee,data_source,order_type,order_status);</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -526,7 +523,7 @@ into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带�
                 
               
 
-              <time title="创建时间：2019-03-05 14:33:24 / 修改时间：15:47:03" itemprop="dateCreated datePublished" datetime="2019-03-05T14:33:24+08:00">2019-03-05</time>
+              <time title="创建时间：2019-03-05 14:33:24 / 修改时间：15:58:36" itemprop="dateCreated datePublished" datetime="2019-03-05T14:33:24+08:00">2019-03-05</time>
             
 
             
@@ -578,7 +575,7 @@ into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带�
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 <p><a href="https://cachecloud.github.io/archives/" target="_blank" rel="noopener">https://cachecloud.github.io/archives/</a></p>
 <p><a href="https://github.com/theme-next/hexo-theme-next/blob/master/docs/zh-CN/README.md" target="_blank" rel="noopener">https://github.com/theme-next/hexo-theme-next/blob/master/docs/zh-CN/README.md</a></p>
-<p>�����ĵ���ַ <a href="http://theme-next.iissnan.com/faqs.html" target="_blank" rel="noopener">http://theme-next.iissnan.com/faqs.html</a></p>
+<p>主题文档地址 <a href="http://theme-next.iissnan.com/faqs.html" target="_blank" rel="noopener">http://theme-next.iissnan.com/faqs.html</a></p>
 
           
         
