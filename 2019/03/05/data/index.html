@@ -97,13 +97,14 @@
 
 
   <meta name="description" content="策略 在某一个时刻将生产库做一个全库备份，并记录下要分表的id最大值及时间，然后使用备份库进行数据迁移 在发版时停服，根据id大于上一次记录的最大值和更新时间做新增数据和更新数据的迁移 迁移方法（此方法不适用于阿里云）  https://juejin.im/post/5b377aa45188254dd52f40d7使用 into outfile ，load data infile命令，linux">
+<meta name="keywords" content="mysql,数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据迁移策略">
 <meta property="og:url" content="http://yoursite.com/2019/03/05/data/index.html">
 <meta property="og:site_name" content="llgang">
 <meta property="og:description" content="策略 在某一个时刻将生产库做一个全库备份，并记录下要分表的id最大值及时间，然后使用备份库进行数据迁移 在发版时停服，根据id大于上一次记录的最大值和更新时间做新增数据和更新数据的迁移 迁移方法（此方法不适用于阿里云）  https://juejin.im/post/5b377aa45188254dd52f40d7使用 into outfile ，load data infile命令，linux">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-05T08:00:48.450Z">
+<meta property="og:updated_time" content="2019-03-05T09:00:38.304Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据迁移策略">
 <meta name="twitter:description" content="策略 在某一个时刻将生产库做一个全库备份，并记录下要分表的id最大值及时间，然后使用备份库进行数据迁移 在发版时停服，根据id大于上一次记录的最大值和更新时间做新增数据和更新数据的迁移 迁移方法（此方法不适用于阿里云）  https://juejin.im/post/5b377aa45188254dd52f40d7使用 into outfile ，load data infile命令，linux">
@@ -230,6 +231,23 @@
         
         
           
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-archives">
 
     
@@ -241,6 +259,23 @@
     
 
     <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
 
@@ -296,8 +331,8 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="llgang">
-      <meta itemprop="description" content="llgang">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="description" content="我干了什么 究竟拿了时间换了什么 <br /> <!-- 离开世界之前，一切都是过程 -->">
+      <meta itemprop="image" content="/images/head-img.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -335,7 +370,7 @@
                 
               
 
-              <time title="创建时间：2019-03-05 15:40:00 / 修改时间：16:00:48" itemprop="dateCreated datePublished" datetime="2019-03-05T15:40:00+08:00">2019-03-05</time>
+              <time title="创建时间：2019-03-05 15:40:00 / 修改时间：17:00:38" itemprop="dateCreated datePublished" datetime="2019-03-05T15:40:00+08:00">2019-03-05</time>
             
 
             
@@ -346,10 +381,25 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
+                
+                
+              
+            </span>
           
-            
-            
+
           
 
           
@@ -439,6 +489,14 @@ into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带�
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+            <a href="/tags/数据/" rel="tag"># 数据</a>
+          
+        </div>
+      
 
       
       
@@ -457,6 +515,10 @@ into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带�
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/14/mybatis/sql 执行流程/" rel="prev" title="SQL执行流程分析">
+                SQL执行流程分析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -477,14 +539,6 @@ into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带�
 
           </div>
           
-
-  
-    <div class="comments" id="gitalk-container">
-    </div>
-
-  
-
-
 
         </div>
         
@@ -518,8 +572,10 @@ into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带�
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image" src="/images/head-img.jpg" alt="llgang">
+            
               <p class="site-author-name" itemprop="name">llgang</p>
-              <div class="site-description motion-element" itemprop="description">llgang</div>
+              <div class="site-description motion-element" itemprop="description">我干了什么 究竟拿了时间换了什么 <br> <!-- 离开世界之前，一切都是过程 --></div>
           </div>
 
           
@@ -529,14 +585,48 @@ into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
 
               
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
               
             </nav>
           
@@ -590,31 +680,15 @@ into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带�
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">llgang</span>
-
-  
-
-  
+        <div class="copyright">
+    
+    &copy;
+    <span itemprop="copyrightYear">2019</span>
+    <span class="with-love" id="animate">
+        <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">llgang</span>
 </div>
-
-
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.1</div>
-
-
-
-
         
 
 
@@ -718,37 +792,6 @@ into outfile &#39;d:/data/t_order_0.txt&#39;;</code><br>这种where条件后带�
   
   
 
-
-  
-    
-
-<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-
-
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-
-
-<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
-
-<script>
-  var gitalk = new Gitalk({
-    clientID: '',
-    clientSecret: '',
-    repo: '',
-    owner: '',
-    admin: [''],
-    id: md5(location.pathname),
-    
-      language: 'zh-CN',
-    
-    distractionFreeMode: 'true'
-  });
-  gitalk.render('gitalk-container');
-</script>
-
-  
 
 
   
