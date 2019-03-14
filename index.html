@@ -371,7 +371,7 @@
                 
               
 
-              <time title="创建时间：2019-03-14 16:48:29" itemprop="dateCreated datePublished" datetime="2019-03-14T16:48:29+08:00">2019-03-14</time>
+              <time title="创建时间：2019-03-14 18:16:20" itemprop="dateCreated datePublished" datetime="2019-03-14T18:16:20+08:00">2019-03-14</time>
             
 
             
@@ -424,13 +424,10 @@
         
           
             <p>
-              SqlSessionFactory 与 SqlSession
-
-在某一个时刻将生产库做一个全库备份，并记录下要分表的id最大值及时间，然后使用备份库进行数据迁移
-在发版时停服，根据id大于上一次记录的最大值和更新时间做新增数据和更新数据的迁移
-迁移方法（此方法不适用于阿里云）
-
-https://ju
+              1. SqlSessionFactory 与 sqlSessionTemplate
+springboot 自动加载类 MybatisAutoConfiguration
+通过@EnableConfigurationProperties(MybatisProperties.class) 加载配置参数
+创
               ...
             </p>
           <!--noindex-->
