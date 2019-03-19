@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="1、说明 因 mysql主从同步会有一定的延迟，在一些场景下，需要先查询主库，再更新。在sharding框架中有一些处理，在开启事务时，在connection未释放时，如果有一次走了主库，后续所有操作都走主库，如果需要">
+  <meta name="description" content="1、说明 因 mysql主从同步会有一定的延迟，在一些场景下，需要先查询主库，再更新。在 sharding 框架中有一些处理，在未开启事务时，一条sql使用一个链接，在链接释放时清理路由标志信息。这个与期望的不管有没有开启事务，只要有一个sql走了主库，后续所有操作都走主库有差别，于是对路由这块做了增强处理  增加一个注解，在手动需要路由主库时，在方法头添加注解即可 service层和dao层ad">
 <meta name="keywords" content="sharding-jdbc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="读写分离路由增加功能">
+<meta property="og:title" content="读写分离路由增强功能">
 <meta property="og:url" content="http://yoursite.com/2019/03/14/sharding/master-slave-route-append/index.html">
 <meta property="og:site_name" content="llgang">
-<meta property="og:description" content="1、说明 因 mysql主从同步会有一定的延迟，在一些场景下，需要先查询主库，再更新。在sharding框架中有一些处理，在开启事务时，在connection未释放时，如果有一次走了主库，后续所有操作都走主库，如果需要">
+<meta property="og:description" content="1、说明 因 mysql主从同步会有一定的延迟，在一些场景下，需要先查询主库，再更新。在 sharding 框架中有一些处理，在未开启事务时，一条sql使用一个链接，在链接释放时清理路由标志信息。这个与期望的不管有没有开启事务，只要有一个sql走了主库，后续所有操作都走主库有差别，于是对路由这块做了增强处理  增加一个注解，在手动需要路由主库时，在方法头添加注解即可 service层和dao层ad">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-14T12:22:43.465Z">
+<meta property="og:updated_time" content="2019-03-14T12:36:08.661Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="读写分离路由增加功能">
-<meta name="twitter:description" content="1、说明 因 mysql主从同步会有一定的延迟，在一些场景下，需要先查询主库，再更新。在sharding框架中有一些处理，在开启事务时，在connection未释放时，如果有一次走了主库，后续所有操作都走主库，如果需要">
+<meta name="twitter:title" content="读写分离路由增强功能">
+<meta name="twitter:description" content="1、说明 因 mysql主从同步会有一定的延迟，在一些场景下，需要先查询主库，再更新。在 sharding 框架中有一些处理，在未开启事务时，一条sql使用一个链接，在链接释放时清理路由标志信息。这个与期望的不管有没有开启事务，只要有一个sql走了主库，后续所有操作都走主库有差别，于是对路由这块做了增强处理  增加一个注解，在手动需要路由主库时，在方法头添加注解即可 service层和dao层ad">
 
 
 
@@ -124,7 +124,7 @@
   };
 </script>
 
-  <title>读写分离路由增加功能 | llgang</title>
+  <title>读写分离路由增强功能 | llgang</title>
   
 
 
@@ -344,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">读写分离路由增加功能
+          <h1 class="post-title" itemprop="name headline">读写分离路由增强功能
 
               
             
@@ -370,9 +370,13 @@
                 
               
 
-              <time title="创建时间：2019-03-14 20:22:43" itemprop="dateCreated datePublished" datetime="2019-03-14T20:22:43+08:00">2019-03-14</time>
+              <time title="创建时间：2019-03-14 21:22:19 / 修改时间：20:36:08" itemprop="dateCreated datePublished" datetime="2019-03-14T21:22:19+08:00">2019-03-14</time>
             
 
+            
+              
+
+              
             
           </span>
 
@@ -421,9 +425,15 @@
 
       
         <h2 id="1、说明"><a href="#1、说明" class="headerlink" title="1、说明"></a>1、说明</h2><blockquote>
-<p>因 mysql主从同步会有一定的延迟，在一些场景下，需要先查询主库，再更新。<br>在sharding框架中有一些处理，在开启事务时，在connection未释放时，如果有一次走了主库，后续所有操作都走主库，如果需要</p>
+<p>因 mysql主从同步会有一定的延迟，在一些场景下，需要先查询主库，再更新。<br>在 sharding 框架中有一些处理，在未开启事务时，一条sql使用一个链接，在链接释放时清理路由标志信息。<br>这个与期望的<code>不管有没有开启事务，只要有一个sql走了主库，后续所有操作都走主库</code>有差别，于是对路由这块做了增强处理</p>
+<ul>
+<li>增加一个注解，在手动需要路由主库时，在方法头添加注解即可</li>
+<li>service层和dao层add、create、save、insert、update、del开头的方法体内所有sql自动路由到主库</li>
+<li>在方法头增加@Transactional注解的，该方法体内所有sql自动路由到主库</li>
+</ul>
 </blockquote>
-
+<h2 id="2、增加注解"><a href="#2、增加注解" class="headerlink" title="2、增加注解"></a>2、增加注解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> HintMaster &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3、注解处理及附加功能处理"><a href="#3、注解处理及附加功能处理" class="headerlink" title="3、注解处理及附加功能处理"></a>3、注解处理及附加功能处理</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 主从库路由增强处理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty</span>(value = &#123;<span class="string">"sharding.jdbc.config.masterslave.enable"</span>&#125;, havingValue = <span class="string">"true"</span>)</span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HintMasterAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;Boolean&gt; CUS_HINT_MANAGER_HOLDER = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 强制路由master</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> joinPoint</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> hintMaster</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"@annotation(hintMaster)"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">setMasterOnly</span><span class="params">(ProceedingJoinPoint joinPoint, HintMaster hintMaster)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (HintManagerHolder.isMasterRouteOnly() || MasterVisitedManager.isMasterVisited()) &#123;</span><br><span class="line">            <span class="keyword">return</span> joinPoint.proceed();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        masterHintSet();</span><br><span class="line">        <span class="keyword">return</span> joinPoint.proceed();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Transactional 作用域为主库</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> joinPoint</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> transactional</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Order</span>(Ordered.HIGHEST_PRECEDENCE)</span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"@annotation(transactional)"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">setTransactionalMasterOnly</span><span class="params">(ProceedingJoinPoint joinPoint, Transactional transactional)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (HintManagerHolder.isMasterRouteOnly() || MasterVisitedManager.isMasterVisited()) &#123;</span><br><span class="line">            <span class="keyword">return</span> joinPoint.proceed();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        masterHintSet();</span><br><span class="line">        <span class="keyword">return</span> joinPoint.proceed();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 同一线程且同一数据库连接内，如有写入操作，以后的读操作均从主库读取，用于保证数据一致性</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> joinPoint</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Order</span>(Ordered.HIGHEST_PRECEDENCE)</span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"execution(public * com.test..dao..*.*(..)) || execution(public * com.test..service.impl..*.*(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">hintMasterCalls</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        String methodName = joinPoint.getSignature().getName();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (HintManagerHolder.isMasterRouteOnly() || MasterVisitedManager.isMasterVisited()) &#123;</span><br><span class="line">            <span class="keyword">return</span> joinPoint.proceed();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (CUS_HINT_MANAGER_HOLDER.get() != <span class="keyword">null</span> &amp;&amp; CUS_HINT_MANAGER_HOLDER.get()) &#123;</span><br><span class="line">            masterHintSet();</span><br><span class="line">            <span class="keyword">return</span> joinPoint.proceed();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String[] methodPreArr = &#123;<span class="string">"add"</span>, <span class="string">"create"</span>, <span class="string">"save"</span>, <span class="string">"insert"</span>, <span class="string">"update"</span>, <span class="string">"del"</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (String methodPre : methodPreArr) &#123;</span><br><span class="line">            <span class="keyword">if</span> (methodName.startsWith(methodPre)) &#123;</span><br><span class="line">                CUS_HINT_MANAGER_HOLDER.set(<span class="keyword">true</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (CUS_HINT_MANAGER_HOLDER.get() != <span class="keyword">null</span> &amp;&amp; CUS_HINT_MANAGER_HOLDER.get()) &#123;</span><br><span class="line">            masterHintSet();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> joinPoint.proceed();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 保证 CUS_HINT_MANAGER_HOLDER 作用域为 request</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> jp</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Order</span></span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"execution(* com.test..*.*Controller.*(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">clearHintMasterCalls</span><span class="params">(ProceedingJoinPoint jp)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> jp.proceed();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (CUS_HINT_MANAGER_HOLDER.get() != <span class="keyword">null</span>) &#123;</span><br><span class="line">                CUS_HINT_MANAGER_HOLDER.remove();</span><br><span class="line">            &#125;</span><br><span class="line">            HintManagerHolder.clear();</span><br><span class="line">            MasterVisitedManager.clear();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">masterHintSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        HintManager hintManager = HintManager.getInstance();</span><br><span class="line">        hintManager.setMasterRouteOnly();</span><br><span class="line">        <span class="keyword">if</span> (CUS_HINT_MANAGER_HOLDER.get() == <span class="keyword">null</span> || !CUS_HINT_MANAGER_HOLDER.get()) &#123;</span><br><span class="line">            CUS_HINT_MANAGER_HOLDER.set(<span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -459,8 +469,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/14/sharding/1.data-source-initd/" rel="next" title="sharding 数据源初始化">
-                <i class="fa fa-chevron-left"></i> sharding 数据源初始化
+              <a href="/2019/03/14/sharding/1.data-source-initd/" rel="next" title="sharding 数据源解析">
+                <i class="fa fa-chevron-left"></i> sharding 数据源解析
               </a>
             
           </div>
@@ -468,6 +478,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/19/mybatis/sql 执行流程/" rel="prev" title="SQL执行流程分析">
+                SQL执行流程分析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -610,7 +624,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、说明"><span class="nav-number">1.</span> <span class="nav-text">1、说明</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、说明"><span class="nav-number">1.</span> <span class="nav-text">1、说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、增加注解"><span class="nav-number">2.</span> <span class="nav-text">2、增加注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、注解处理及附加功能处理"><span class="nav-number">3.</span> <span class="nav-text">3、注解处理及附加功能处理</span></a></li></ol></div>
             
 
           </div>

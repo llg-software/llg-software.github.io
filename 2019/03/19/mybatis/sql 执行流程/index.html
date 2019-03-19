@@ -100,13 +100,13 @@
 <meta name="keywords" content="mybatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL执行流程分析">
-<meta property="og:url" content="http://yoursite.com/2019/03/14/mybatis/sql 执行流程/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/03/19/mybatis/sql 执行流程/index.html">
 <meta property="og:site_name" content="llgang">
 <meta property="og:description" content="1. SqlSessionFactory 与 sqlSessionTemplate springboot 自动加载类 MybatisAutoConfiguration 通过@EnableConfigurationProperties(MybatisProperties.class) 加载配置参数 创建 SqlSessionFactory bean 1234567891011121314151617">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/mybatis/sql-execute-1.jpg">
 <meta property="og:image" content="http://yoursite.com/images/mybatis/sql-execute-1.jpg">
-<meta property="og:updated_time" content="2019-03-14T10:25:15.329Z">
+<meta property="og:updated_time" content="2019-03-19T10:32:51.468Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL执行流程分析">
 <meta name="twitter:description" content="1. SqlSessionFactory 与 sqlSessionTemplate springboot 自动加载类 MybatisAutoConfiguration 通过@EnableConfigurationProperties(MybatisProperties.class) 加载配置参数 创建 SqlSessionFactory bean 1234567891011121314151617">
@@ -117,7 +117,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/14/mybatis/sql 执行流程/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/19/mybatis/sql 执行流程/">
 
 
 
@@ -330,7 +330,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/mybatis/sql 执行流程/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/mybatis/sql 执行流程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="llgang">
@@ -373,7 +373,7 @@
                 
               
 
-              <time title="创建时间：2019-03-14 18:25:15" itemprop="dateCreated datePublished" datetime="2019-03-14T18:25:15+08:00">2019-03-14</time>
+              <time title="创建时间：2019-03-19 18:32:51" itemprop="dateCreated datePublished" datetime="2019-03-19T18:32:51+08:00">2019-03-19</time>
             
 
             
@@ -429,10 +429,10 @@
 <li><p>创建 SqlSessionFactory bean</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">sqlSessionFactory</span><span class="params">(DataSource dataSource)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  SqlSessionFactoryBean factory = <span class="keyword">new</span> SqlSessionFactoryBean();</span><br><span class="line">  factory.setDataSource(dataSource);</span><br><span class="line">  factory.setVfs(SpringBootVFS.class);</span><br><span class="line">  <span class="keyword">if</span> (StringUtils.hasText(<span class="keyword">this</span>.properties.getConfigLocation())) &#123;</span><br><span class="line">    factory.setConfigLocation(<span class="keyword">this</span>.resourceLoader.getResource(<span class="keyword">this</span>.properties.getConfigLocation()));</span><br><span class="line">  &#125;</span><br><span class="line">  Configuration configuration = <span class="keyword">this</span>.properties.getConfiguration();</span><br><span class="line">  <span class="keyword">if</span> (configuration == <span class="keyword">null</span> &amp;&amp; !StringUtils.hasText(<span class="keyword">this</span>.properties.getConfigLocation())) &#123;</span><br><span class="line">    configuration = <span class="keyword">new</span> Configuration();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (configuration != <span class="keyword">null</span> &amp;&amp; !CollectionUtils.isEmpty(<span class="keyword">this</span>.configurationCustomizers)) &#123;</span><br><span class="line">    <span class="keyword">for</span> (ConfigurationCustomizer customizer : <span class="keyword">this</span>.configurationCustomizers) &#123;</span><br><span class="line">      customizer.customize(configuration);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  factory.setConfiguration(configuration);</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.properties.getConfigurationProperties() != <span class="keyword">null</span>) &#123;</span><br><span class="line">    factory.setConfigurationProperties(<span class="keyword">this</span>.properties.getConfigurationProperties());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!ObjectUtils.isEmpty(<span class="keyword">this</span>.interceptors)) &#123;</span><br><span class="line">    factory.setPlugins(<span class="keyword">this</span>.interceptors);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.databaseIdProvider != <span class="keyword">null</span>) &#123;</span><br><span class="line">    factory.setDatabaseIdProvider(<span class="keyword">this</span>.databaseIdProvider);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (StringUtils.hasLength(<span class="keyword">this</span>.properties.getTypeAliasesPackage())) &#123;</span><br><span class="line">    factory.setTypeAliasesPackage(<span class="keyword">this</span>.properties.getTypeAliasesPackage());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (StringUtils.hasLength(<span class="keyword">this</span>.properties.getTypeHandlersPackage())) &#123;</span><br><span class="line">    factory.setTypeHandlersPackage(<span class="keyword">this</span>.properties.getTypeHandlersPackage());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!ObjectUtils.isEmpty(<span class="keyword">this</span>.properties.resolveMapperLocations())) &#123;</span><br><span class="line">    factory.setMapperLocations(<span class="keyword">this</span>.properties.resolveMapperLocations());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> factory.getObject();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>创建 sqlSessionTemplate bean，通过</p>
+<li><p>创建 sqlSessionTemplate bean</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> SqlSessionTemplate <span class="title">sqlSessionTemplate</span><span class="params">(SqlSessionFactory sqlSessionFactory)</span> </span>&#123;</span><br><span class="line">  ExecutorType executorType = <span class="keyword">this</span>.properties.getExecutorType();</span><br><span class="line">  <span class="keyword">if</span> (executorType != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SqlSessionTemplate(sqlSessionFactory, executorType);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SqlSessionTemplate(sqlSessionFactory);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>通过 SqlSessionUtils 获取 SqlSession</p>
+<li><p>通过 SqlSessionUtils 获取 SqlSession<br>SqlSessionTemplate -&gt; SqlSessionInterceptor(内部类)-&gt; SqlSessionUtils.getSqlSession()</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SqlSession <span class="title">getSqlSession</span><span class="params">(SqlSessionFactory sessionFactory, ExecutorType executorType, PersistenceExceptionTranslator exceptionTranslator)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   notNull(sessionFactory, NO_SQL_SESSION_FACTORY_SPECIFIED);</span><br><span class="line">   notNull(executorType, NO_EXECUTOR_TYPE_SPECIFIED);</span><br><span class="line"></span><br><span class="line">   SqlSessionHolder holder = (SqlSessionHolder) TransactionSynchronizationManager.getResource(sessionFactory);</span><br><span class="line"></span><br><span class="line">   SqlSession session = sessionHolder(executorType, holder);</span><br><span class="line">   <span class="keyword">if</span> (session != <span class="keyword">null</span>) &#123;</span><br><span class="line">     <span class="keyword">return</span> session;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (LOGGER.isDebugEnabled()) &#123;</span><br><span class="line">     LOGGER.debug(<span class="string">"Creating a new SqlSession"</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   session = sessionFactory.openSession(executorType);</span><br><span class="line"></span><br><span class="line">   registerSessionHolder(sessionFactory, executorType, exceptionTranslator, session);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> session;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -499,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/05/data/" rel="next" title="数据迁移策略">
-                <i class="fa fa-chevron-left"></i> 数据迁移策略
+              <a href="/2019/03/14/sharding/master-slave-route-append/" rel="next" title="读写分离路由增强功能">
+                <i class="fa fa-chevron-left"></i> 读写分离路由增强功能
               </a>
             
           </div>
@@ -508,10 +508,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/14/sharding/1.data-source-initd/" rel="prev" title="sharding 数据源初始化">
-                sharding 数据源初始化 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
